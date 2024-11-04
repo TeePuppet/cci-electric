@@ -1,0 +1,27 @@
+---
+import { config } from "../config";
+
+---
+<section id="contact" class="py-20 bg-gray-100">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-12">Contactează-ne</h2>
+      <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+        <div class="space-y-6">
+          <div>
+            <h4 class="font-semibold text-lg">Program de Lucru:</h4>
+            <p>Luni - Vineri: 08:00 - 18:00</p>
+            <p>Serviciu de Urgență: 24/7</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-lg">Contact Rapid:</h4>
+            <p>Telefon: {config.phoneNumber.display}</p>
+            <p>Email: {config.email}</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-lg">Autorizații:</h4>
+            <p>Autorizație ANRE: [Număr autorizație]</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

@@ -1,0 +1,40 @@
+---
+const benefits = [
+  "Echipă de electricieni autorizați ANRE",
+  "Intervenții rapide în maxim 30-60 minute",
+  "Garanție extinsă pentru lucrări și materiale",
+  "Prețuri competitive și transparente",
+  "Disponibilitate 24/7, 365 zile pe an"
+];
+---
+
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row items-center gap-8">
+      <div class="md:w-1/2">
+        <img src="/images/electrician-working.jpg" alt="Electrician la lucru" class="rounded-lg shadow-lg" />
+      </div>
+      <div class="md:w-1/2">
+        <h2 class="text-3xl font-bold text-green-600 mb-6">
+          Aveți o problemă de ordin electric? Electrician365.ro e rezolvarea!
+        </h2>
+        <p class="text-gray-700 mb-6">
+          Suntem o echipă de profesioniști dedicați, gata să vă oferim soluții rapide și eficiente pentru orice problemă electrică. Cu o experiență vastă și cunoștințe actualizate, suntem pregătiți să facem față oricărei provocări.
+        </p>
+        <ul class="space-y-2">
+          {benefits.map((benefit) => (
+            <li class="flex items-center">
+              <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              {benefit}
+            </li>
+          ))}
+        </ul>
+        <a href="#contact" class="mt-8 inline-block bg-yellow-500 text-green-800 px-6 py-3 font-semibold rounded-full hover:bg-yellow-400 transition-colors">
+          Contactează-ne acum
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

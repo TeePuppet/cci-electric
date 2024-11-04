@@ -1,0 +1,128 @@
+---
+import { Image } from 'astro:assets';
+import Button from '../components/Button.astro';
+
+interface Slide {
+  image: string;
+  alt: string;
+  title: string;
+  subtitle: string;
+}
+
+const slides: Slide[] = [
+  {
+    image: 'https://plus.unsplash.com/premium_photo-1661911309991-cc81afcce97d?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    alt: 'Electrician working on a circuit board',
+    title: 'Servicii Electrice Profesionale',
+    subtitle: 'Disponibili 24/7 pentru toate nevoile dvs. electrice',
+  },
+  {
+    image: 'https://plus.unsplash.com/premium_photo-1682928136660-8cbeaf4941b2?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    alt: 'Modern home electrical installation',
+    title: 'Instalații Electrice de Ultimă Generație',
+    subtitle: 'Soluții eficiente și sigure pentru casa dvs.',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1682345262055-8f95f3c513ea?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    alt: 'Electrician repairing an electrical panel',
+    title: 'Reparații și Mentenanță',
+    subtitle: 'Expertiză tehnică pentru orice problemă electrică',
+  },
+];
+---
+
+<section class="relative bg-gray-900 overflow-hidden">
+  <div class="relative h-[500px]" id="imageSlider">
+    {slides.map((slide, index) => (
+      <div class={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === 0 ? 'opacity-100' : 'opacity-0'}`} data-slide={index}>
+        <Image
+          src={slide.image}
+          alt={slide.alt}
+          width={1600}
+          height={600}
+          class="object-cover w-full h-full"
+        />
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="px-4 absolute inset-0 flex flex-col justify-center md:items-center items-start md:text-center text-left text-white">
+          <h1 class=" text-white text-4xl md:text-5xl font-bold mb-4">{slide.title}</h1>
+          <p class="text-xl md:text-2xl mb-8">{slide.subtitle}</p>
+          <Button>
+            Contactează-ne
+          </Button>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Desktop Navigation Buttons -->
+  <button class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hidden md:block" id="prevSlide" aria-label="Previous slide">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+  <button class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hidden md:block" id="nextSlide" aria-label="Next slide">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+
+  <!-- Slider Navigation Dots -->
+  <div class="absolute bottom-2 left-0 right-0 flex justify-center space-x-2">
+    {slides.map((_, index) => (
+      <button
+        class="w-1 h-1 rounded-full bg-white opacity-50 hover:opacity-100 transition-opacity duration-300"
+        data-slide-nav={index}
+        aria-label={`Go to slide ${index + 1}`}
+      ></button>
+    ))}
+  </div>
+</section>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll<HTMLElement>('[data-slide]');
+  const totalSlides = slides.length;
+
+  function showSlide(index: number) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('opacity-0', i !== index);
+      slide.classList.toggle('opacity-100', i === index);
+    });
+    document.querySelectorAll<HTMLElement>('[data-slide-nav]').forEach((button, i) => {
+      button.classList.toggle('opacity-50', i !== index);
+      button.classList.toggle('opacity-100', i === index);
+    });
+    currentSlide = index;
+  }
+
+  function nextSlide() {
+    showSlide((currentSlide + 1) % totalSlides);
+  }
+
+  function prevSlide() {
+    showSlide((currentSlide - 1 + totalSlides) % totalSlides);
+  }
+
+  const nextButton = document.getElementById('nextSlide');
+  const prevButton = document.getElementById('prevSlide');
+
+  nextButton?.addEventListener('click', nextSlide);
+  prevButton?.addEventListener('click', prevSlide);
+
+  document.querySelectorAll<HTMLElement>('[data-slide-nav]').forEach((button, index) => {
+    button.addEventListener('click', () => showSlide(index));
+  });
+
+  let touchStartX = 0;
+  const slider = document.getElementById('imageSlider');
+  slider?.addEventListener('touchstart', (e: TouchEvent) => { 
+    touchStartX = e.touches[0]!.clientX; 
+  });
+  slider?.addEventListener('touchend', (e: TouchEvent) => {
+    const touchEndX = e.changedTouches[0]!.clientX;
+    if (touchStartX - touchEndX > 50) nextSlide();
+    else if (touchEndX - touchStartX > 50) prevSlide();
+  });
+
+  setInterval(nextSlide, 5000);
+</script>

@@ -1,0 +1,164 @@
+---
+import { Image } from 'astro:assets';
+import Label from '../components/Label.astro';
+
+interface GalleryImage {
+  default: ImageMetadata;
+  src: string;
+}
+
+// Import all images from the specified folder
+const allImages = await Astro.glob<GalleryImage>('../images/*.{png,jpg,jpeg,webp}');
+
+// Shuffle the images array
+const shuffledImages = allImages.sort(() => Math.random() - 0.5);
+
+// Initially show 8 images (2 rows of 4)
+const initialImageCount = 8;
+---
+
+<div class="container mx-auto px-4 py-12">
+    <div class="flex flex-col items-center justify-center gap-2">
+        <Label label="Realizări Anterioare"/>
+        <h2>Galerie Proiecte</h2>
+    </div>
+
+  <div id="imageGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+    {shuffledImages.slice(0, initialImageCount).map((image, index) => (
+      <div class="relative cursor-pointer gallery-item aspect-square overflow-hidden rounded-lg" data-index={index}>
+        <Image
+          src={image.default}
+          alt={`Gallery image ${index + 1}`}
+          width={400}
+          height={400}
+          class="w-full h-full object-cover"
+        />
+      </div>
+    ))}
+  </div>
+  {shuffledImages.length > initialImageCount && (
+    <div class="text-center mt-8">
+      <button id="loadMoreBtn" class="bg-accent hover:bg-primary text-white font-bold py-2 px-4 rounded">
+        Vezi mai multe
+      </button>
+    </div>
+  )}
+</div>
+
+<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+  <button id="prevImage" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full bg-black bg-opacity-50 hover:bg-opacity-75 transition-opacity z-10">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-8 h-8">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+  <div class="max-w-4xl w-full mx-4 relative">
+    <img id="modalImage" src="" alt="" class="max-w-full max-h-[90vh] object-contain mx-auto" />
+  </div>
+  <button id="nextImage" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full bg-black bg-opacity-50 hover:bg-opacity-75 transition-opacity z-10">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-8 h-8">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+  <button id="closeModal" class="fixed top-4 right-4 text-white p-2 rounded-full bg-black bg-opacity-50 hover:bg-opacity-75 transition-opacity z-20">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-8 h-8">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+</div>
+
+<script define:vars={{ shuffledImages, initialImageCount }}>
+  let currentImageIndex = 0;
+  let displayedImageCount = initialImageCount;
+
+  const imageGrid = document.getElementById('imageGrid');
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  const modal = document.getElementById('imageModal');
+  const modalImage = document.getElementById('modalImage');
+  const closeButton = document.getElementById('closeModal');
+  const prevButton = document.getElementById('prevImage');
+  const nextButton = document.getElementById('nextImage');
+
+  function loadMoreImages() {
+    const nextBatch = shuffledImages.slice(displayedImageCount, displayedImageCount + 8);
+    nextBatch.forEach((image, index) => {
+      const div = document.createElement('div');
+      div.className = 'relative cursor-pointer gallery-item aspect-square overflow-hidden rounded-lg';
+      div.dataset.index = (displayedImageCount + index).toString();
+
+      const img = document.createElement('img');
+      img.src = image.default.src;
+      img.alt = `Gallery image ${displayedImageCount + index + 1}`;
+      img.className = 'w-full h-full object-cover';
+
+      div.appendChild(img);
+      imageGrid.appendChild(div);
+
+      div.addEventListener('click', openModal);
+    });
+
+    displayedImageCount += nextBatch.length;
+    if (displayedImageCount >= shuffledImages.length) {
+      loadMoreBtn.style.display = 'none';
+    }
+  }
+
+  function openModal(event) {
+    const clickedItem = event.currentTarget;
+    currentImageIndex = parseInt(clickedItem.dataset.index, 10);
+    updateModalImage();
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Disable scrolling
+  }
+
+  function updateModalImage() {
+    modalImage.src = shuffledImages[currentImageIndex].default.src;
+    modalImage.alt = `Gallery image ${currentImageIndex + 1}`;
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    document.body.style.overflow = ''; // Re-enable scrolling
+  }
+
+  function showPrevImage() {
+    currentImageIndex = (currentImageIndex - 1 + shuffledImages.length) % shuffledImages.length;
+    updateModalImage();
+  }
+
+  function showNextImage() {
+    currentImageIndex = (currentImageIndex + 1) % shuffledImages.length;
+    updateModalImage();
+  }
+
+  // Event listeners
+  loadMoreBtn?.addEventListener('click', loadMoreImages);
+  closeButton?.addEventListener('click', closeModal);
+  prevButton?.addEventListener('click', showPrevImage);
+  nextButton?.addEventListener('click', showNextImage);
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (modal.classList.contains('hidden')) return;
+    switch (e.key) {
+      case 'ArrowLeft':
+        showPrevImage();
+        break;
+      case 'ArrowRight':
+        showNextImage();
+        break;
+      case 'Escape':
+        closeModal();
+        break;
+    }
+  });
+
+  // Initial setup
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', openModal);
+  });
+</script>

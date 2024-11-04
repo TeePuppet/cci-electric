@@ -1,16 +1,37 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../features/Homepage_Hero.astro';
+import About from '../features/About.astro';
+// import Services from '../components/Services.astro';
+// import Coverage from '../components/Coverage.astro';
+import Contact from '../features/Contact.astro';
+import Footer from '../components/Footer.astro';
+import WhatsApp_Button from '../features/WhatsApp_Button.astro';
+import Accordion from '../features/Accordion.astro';
+import AnnouncementBar from '../features/Announcement_Bar.astro';
+import ServiceDescription from '../features/ServiceDescription.astro';
+import ImageGallery from '../features/ImageGallery.astro';
+// import ZoneDeAcoperire from '../features/ZoneDeAcoperire.astro';
+// import TopHeader from '../components/TopHeader.astro';
+// import MainHeader from '../components/MainHeader.astro';
+// import Navigation from '../components/Navigation.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title='CCI Electric Constanța - Instalații Electrice și Climatizare'>
+	<!-- <TopHeader/> -->
+	<Header />
+	<!-- <Navigation/> -->
+	<main>
+		<Hero />
+		<AnnouncementBar />
+		<About />
+		<ServiceDescription />
+		<Accordion />
+		<ImageGallery />
+		<!-- <Coverage /> -->
+		<Contact />
+		<WhatsApp_Button />
+	</main>
+	<Footer />
+</Layout>

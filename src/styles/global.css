@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #0050b3;
+  --color-accent: hsl(38, 100%, 58%);
+  --color-title: hsl(221, 39%, 11%);
+  --color-body: hsl(217, 19%, 27%);
+}
+
+@layer base {
+    html {
+        font-family: 'Inter', sans-serif;
+        scroll-behavior: smooth;
+    }
+
+  body {
+    @apply font-sans text-body bg-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-['Oswald'] font-bold text-title;
+  }
+
+  h2 {
+    @apply md:text-4xl text-2xl font-bold md:text-center text-left text-title mb-6 mt-4
+  }
+}
+
+@layer components {
+  .container {
+    @apply px-4 mx-auto max-w-7xl;
+  }
+
+  .global-px {
+    @apply px-4;
+  }
+}

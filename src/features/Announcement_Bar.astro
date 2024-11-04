@@ -1,0 +1,44 @@
+---
+const announcementText = "Interventie rapida pentru avarii in instalațiile electrice";
+---
+
+<div class="bg-accent overflow-hidden py-3 ">
+  <div class="scrolling-text-container">
+    <div class="scrolling-text">
+      {Array(8).fill(0).map((_) => (
+        <span class="inline-block text-white font-bold uppercase text-sm px-4">
+          {announcementText}
+        </span>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .scrolling-text-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .scrolling-text {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scroll 80s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  /* Pause animation when user prefers reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .scrolling-text {
+      animation-play-state: paused;
+    }
+  }
+</style>

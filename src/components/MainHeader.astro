@@ -1,0 +1,24 @@
+---
+const phoneNumber = "0731 862 891";
+const email = "office@ccielectric.ro";
+---
+
+<header class="bg-white py-4">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <a href="/" class="flex items-center">
+        <img src="/logo.svg" alt="CCI Electric" class="h-12" />
+      </a>
+      <div class="flex flex-col md:flex-row items-end gap-6">
+        <div class="flex items-center gap-2">
+          <span class="text-gray-600">E-MAIL:</span>
+          <a href={`mailto:${email}`} class="text-green-500 font-semibold hover:text-green-600">{email}</a>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-gray-600">PROGRAM NON-STOP / 365 ZILE PE AN</span>
+          <a href={`tel:${phoneNumber.replace(/\s/g, '')}`} class="text-green-500 font-semibold hover:text-green-600">{phoneNumber}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,62 @@
+---
+const navItems = [
+  { title: "ELECTRICIAN", href: "#" },
+  { title: "INSTALAȚII ELECTRICE", href: "#" },
+  { title: "PREȚURI", href: "#" },
+  { title: "VERIFICARE PRAM", href: "#" },
+  { title: "ZONE DE ACOPERIRE", href: "#" },
+  { title: "TABLOURI ELECTRICE", href: "#" },
+  { title: "ÎMPĂMÂNTARE", href: "#" },
+  { title: "SERVICII AER CONDIȚIONAT", href: "#" },
+];
+---
+
+<nav class="bg-green-600 sticky top-0 z-50">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center">
+      <div class="hidden lg:flex">
+        {navItems.map(item => (
+          <a
+            href={item.href}
+            class="text-white px-4 py-4 hover:bg-green-700 transition-colors text-sm whitespace-nowrap"
+          >
+            {item.title}
+          </a>
+        ))}
+      </div>
+      <button class="lg:hidden text-white p-4">
+        <span class="sr-only">Meniu</span>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <a
+        href="#programare"
+        class="bg-yellow-500 text-green-800 px-6 py-2 font-semibold hover:bg-yellow-400 transition-colors whitespace-nowrap"
+      >
+        PROGRAMEAZĂ-TE
+      </a>
+    </div>
+  </div>
+  
+  <!-- Mobile Menu -->
+  <div class="lg:hidden hidden" id="mobile-menu">
+    {navItems.map(item => (
+      <a
+        href={item.href}
+        class="block px-4 py-2 text-white hover:bg-green-700 transition-colors"
+      >
+        {item.title}
+      </a>
+    ))}
+  </div>
+</nav>
+
+<script>
+  const mobileMenuButton = document.querySelector('button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>
