@@ -10,5 +10,5 @@ export const config = {
         code: '+40770246709'
     },
     email: 'e.cci@yahoo.com',
-    facebookUrl: ''
+    facebookUrl: 'https://www.facebook.com/people/CCI-Electric-Constanta/61567011257313/'
 }
