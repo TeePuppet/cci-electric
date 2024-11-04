@@ -63,12 +63,6 @@ const services: Service[] = [
   },
 ];
 
-const areas = [
-  'Constanța', 'Mamaia', 'Năvodari', 'Ovidiu', 'Eforie',
-  'Techirghiol', 'Mangalia', 'Cumpăna', 'Lazu', 'Agigea',
-  'Valu lui Traian', 'Murfatlar', 'Lumina', 'Palazu',
-]
-
 ---
 
 <section id="servicii" class="py-12 bg-primary text-white">
@@ -98,17 +92,4 @@ const areas = [
   </div>
 </section>
 
-<section class="py-12 bg-gray-100">
-  <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-8">Zone de Acoperire</h2>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {areas.map((area) => (
-        <div class="bg-white rounded-lg shadow-md p-4 flex items-center">
-          {/* <div class="w-5 h-5 text-primary mr-2" set:html={mapPinIcon} /> */}
-          <span>{area}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
 

@@ -1,52 +1,43 @@
 ---
 import Logo from './Logo.astro';
-
-const areas = [
-	'Constanța',
-	'Mamaia',
-	'Năvodari',
-	'Ovidiu',
-	'Eforie',
-	'Techirghiol',
-	'Mangalia',
-	'Cumpăna',
-	'Lazu',
-	'Agigea',
-	'Valu lui Traian',
-	'Murfatlar',
-	'Lumina',
-	'Palazu',
-];
+import { config } from "../config";
+// import Button from './Button.astro';
+import { Facebook } from 'lucide-svelte';
 ---
 
 <footer class='bg-primary text-white py-8'>
 	<div class='container mx-auto px-6'>
-		<a
-			href='/'
-			class='text-2xl font-bold'>
-			<Logo />
-		</a>
-		<hr class='my-6 border-black/10' />
-		<div class='w-full'>
-			<!-- <h2 class='text-lg mb-4 text-white'>Zone de acoperire</h2> -->
-		
-			<div class='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2'>
-				{
-					areas.map((area) => (
-						<div class='p-2 bg-black/10 bg-opacity-50 rounded text-center transition-all'>
-							{area}
-						</div>
-					))
-				}
+		<div class='flex justify-between items-center mb-8'>
+			<a href='/' class='text-2xl font-bold'>
+				<Logo />
+			</a>
+
+			<a href={config.facebookUrl} class="flex items-center justify-start bg-black/10 text-white fill-white px-4 py-3 whitespace-nowrap rounded-lg hover:bg-accent transition-colors space-x-2 animate-fade-in animation-delay-400 font-['Oswald'] uppercase font-medium text-sm">
+				<Facebook/>  <span class="ml-1">Ne gasiti si pe Facebook</span>
+			  </a>
+			<!-- <Button>Ne gasiti si pe Facebook</Button> -->
+		</div>
+		<hr class='border-blue-800' />
+
+		<div class='grid md:grid-cols-2 gap-8 mb-8 '>
+			<div>
+				<h2 class="text-white text-xl font-bold mb-4 text-left opacity-40" >Contact Rapid</h2>
+				<p>Telefon: {config.phoneNumber.display}</p>
+				<p>Email: {config.email}</p>
+			</div>
+			<div class="md:text-right ">
+				<h2 class="text-white text-xl font-bold mb-4 md:text-right text-left opacity-40">Program de Lucru</h2>
+				<p>Luni - Vineri: 08:00 - 18:00</p>
+				<p>Serviciu de Urgență: 24/7</p>
 			</div>
 		</div>
 
-		<hr class='my-6 border-blue-800' />
-		<div class='md:flex md:justify-between md:items-center text-sm'>
-			<p class='mb-4 md:mb-0'
-				>© {new Date().getFullYear()} CCI Electric Constanța. Toate drepturile
-				rezervate.</p
-			>
+		<hr class='border-blue-800' />
+		
+		<div class='mt-6 md:text-center text-left'>
+			<p class='text-sm'>
+				© {new Date().getFullYear()} CCI Electric Constanța. Toate drepturile rezervate.
+			</p>
 		</div>
 	</div>
 </footer>

@@ -9,5 +9,6 @@ export const config = {
         display: '0770 246 709',
         code: '+40770246709'
     },
-    email: 'email@gmail.com'
+    email: 'e.cci@yahoo.com',
+    facebookUrl: ''
 }
