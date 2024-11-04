@@ -27,7 +27,7 @@
   }
 
   h2 {
-    @apply md:text-4xl text-2xl font-bold md:text-center text-left text-title mb-6 mt-4
+    @apply md:text-4xl text-2xl font-bold text-title mb-6 mt-4
   }
 }
 
