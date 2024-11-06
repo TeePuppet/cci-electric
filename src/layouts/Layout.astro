@@ -3,9 +3,20 @@ import '../styles/global.css';
 
 export interface Props {
   title: string;
+  description: string;
+  image?: string;
 }
 
-const { title } = Astro.props;
+const { title, description, image } = Astro.props;
+
+// Default OG image if not provided
+const ogImage = image || '/default-og-image.png';
+
+// Get the current URL
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Construct the full OG image URL
+const ogImageURL = new URL(ogImage, Astro.site);
 ---
 
 <!DOCTYPE html>
@@ -17,6 +28,22 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#0050b3">
     <title>{title}</title>
+    <meta name="description" content={description}>
+    <link rel="canonical" href={canonicalURL}>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={ogImageURL} />
   </head>
   <body>
     <slot />
